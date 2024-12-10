@@ -4,13 +4,13 @@ import { sidebarLinks } from "@/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const LeftSidebar = () => {
   const pathname = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
 
-  console.log({ pathname, router }, "<---disidebar");
+  // console.log({ pathname, router }, "<---disidebar");
 
   return (
     <section className="bg-amber-500 left_sidebar">

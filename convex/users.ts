@@ -94,6 +94,8 @@ export const getUserById = query({
 export const getTopUserByPodcastCount = query({
   args: {},
   handler: async (ctx, args) => {
+    console.log({ ctx, args }, "<---getTopUserByPodcastCount");
+
     const user = await ctx.db.query("users").collect();
 
     const userData = await Promise.all(
