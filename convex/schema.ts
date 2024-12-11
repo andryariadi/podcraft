@@ -8,15 +8,15 @@ export default defineSchema({
     podcastDescription: v.string(),
     audioUrl: v.optional(v.string()),
     audioStorageId: v.optional(v.id("_storage")),
+    audioDuration: v.number(),
+    imagePrompt: v.string(),
     imageUrl: v.optional(v.string()),
     imageStorageId: v.optional(v.id("_storage")),
     author: v.string(),
     authorId: v.string(),
     authorImageUrl: v.string(),
-    voicePrompt: v.string(),
-    imagePrompt: v.string(),
     voiceType: v.string(),
-    audioDuration: v.number(),
+    voicePrompt: v.string(),
     views: v.number(),
   })
     .searchIndex("search_author", { searchField: "author" })

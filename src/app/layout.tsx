@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import ConvexClerkProvider from "./Providers/ConvexProvider";
+import { Toaster } from "react-hot-toast";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -21,7 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${manrope.className} antialiased`}>
-        <ConvexClerkProvider>{children}</ConvexClerkProvider>
+        <ConvexClerkProvider>
+          {children}
+          <Toaster position="top-right" />
+        </ConvexClerkProvider>
       </body>
     </html>
   );

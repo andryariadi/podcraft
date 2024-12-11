@@ -13,9 +13,21 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { podcastSchema } from "@/lib/validations";
 import { useState } from "react";
+import GeneratePodcast from "./GeneratePodcast";
+import { Id } from "../../convex/_generated/dataModel";
+import { VoiceType } from "@/types";
 
 const CreatePodcastForm = () => {
   const [voiceType, setVoiceType] = useState<string>();
+  const [voicePrompt, setVoicePrompt] = useState("");
+
+  const [audioUrl, setAudioUrl] = useState("");
+  const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(null);
+  const [audioDuration, setAudioDuration] = useState(0);
+
+  // const [imagePrompt, setImagePrompt] = useState("");
+  // const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null);
+  // const [imageUrl, setImageUrl] = useState("");
 
   const handleVoiceTypeChange = (voiceType?: string) => {
     setValue("voiceType", voiceType ?? "");
@@ -34,6 +46,8 @@ const CreatePodcastForm = () => {
   const handleSubmitForm: SubmitHandler<z.infer<typeof podcastSchema>> = async (data) => {
     console.log(data, "<----dihandleSubmitForm");
   };
+
+  console.log({ voiceType, voicePrompt, audioUrl, audioStorageId, audioDuration }, "<----dicreatePodcastForm");
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)} className="bg-violet-500 grid grid-cols-1 gap-10">
@@ -65,10 +79,12 @@ const CreatePodcastForm = () => {
       </div>
 
       <div className="relative">
-        <TextareaField id="podcastDescription" rows={5} cols={30} placeholder={`Write a short description about the podcast`} propsData={{ ...register("podcastDescription") }} />
+        <TextareaField id="podcastDescription" rows={4} cols={30} placeholder={`Write a short description about the podcast`} propsData={{ ...register("podcastDescription") }} />
 
         {errors.podcastDescription && <p className="absolute -bottom-4 text-red-500 text-sm">{errors.podcastDescription.message as string}</p>}
       </div>
+
+      <GeneratePodcast voiceType={voiceType as VoiceType} voicePrompt={voicePrompt} audio={audioUrl} setAudio={setAudioUrl} setAudioStorageId={setAudioStorageId} setVoicePrompt={setVoicePrompt} setAudioDuration={setAudioDuration} />
 
       <motion.button
         type="submit"
