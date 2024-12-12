@@ -7,7 +7,7 @@ type PodcastCardProp = {
   imgURL: string;
 };
 const PodcastCard = ({ podcast }: { podcast: PodcastCardProp }) => {
-  console.log(podcast, "<---dipodcastCard");
+  // console.log(podcast, "<---dipodcastCard");
 
   return (
     <figure className="bg-rose-700 space-y-2">

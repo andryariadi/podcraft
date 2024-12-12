@@ -16,6 +16,7 @@ import { useState } from "react";
 import GeneratePodcast from "./GeneratePodcast";
 import { Id } from "../../convex/_generated/dataModel";
 import { VoiceType } from "@/types";
+import GenerateThumbnail from "./GenerateThumbnail";
 
 const CreatePodcastForm = () => {
   const [voiceType, setVoiceType] = useState<string>();
@@ -85,6 +86,8 @@ const CreatePodcastForm = () => {
       </div>
 
       <GeneratePodcast voiceType={voiceType as VoiceType} voicePrompt={voicePrompt} audio={audioUrl} setAudio={setAudioUrl} setAudioStorageId={setAudioStorageId} setVoicePrompt={setVoicePrompt} setAudioDuration={setAudioDuration} />
+
+      <GenerateThumbnail />
 
       <motion.button
         type="submit"
