@@ -26,9 +26,9 @@ const CreatePodcastForm = () => {
   const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(null);
   const [audioDuration, setAudioDuration] = useState(0);
 
-  // const [imagePrompt, setImagePrompt] = useState("");
-  // const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null);
-  // const [imageUrl, setImageUrl] = useState("");
+  const [imagePrompt, setImagePrompt] = useState("");
+  const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleVoiceTypeChange = (voiceType?: string) => {
     setValue("voiceType", voiceType ?? "");
@@ -48,7 +48,7 @@ const CreatePodcastForm = () => {
     console.log(data, "<----dihandleSubmitForm");
   };
 
-  console.log({ voiceType, voicePrompt, audioUrl, audioStorageId, audioDuration }, "<----dicreatePodcastForm");
+  console.log({ voiceType, voicePrompt, audioUrl, audioStorageId, audioDuration, imageUrl, imagePrompt, imageStorageId }, "<----dicreatePodcastForm");
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)} className="bg-violet-500 grid grid-cols-1 gap-10">
@@ -87,7 +87,7 @@ const CreatePodcastForm = () => {
 
       <GeneratePodcast voiceType={voiceType as VoiceType} voicePrompt={voicePrompt} audio={audioUrl} setAudio={setAudioUrl} setAudioStorageId={setAudioStorageId} setVoicePrompt={setVoicePrompt} setAudioDuration={setAudioDuration} />
 
-      <GenerateThumbnail />
+      <GenerateThumbnail image={imageUrl} setImage={setImageUrl} imagePrompt={imagePrompt} setImagePrompt={setImagePrompt} setImageStorageId={setImageStorageId} />
 
       <motion.button
         type="submit"

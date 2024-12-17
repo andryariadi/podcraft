@@ -21,7 +21,7 @@ const useGeneratePodcast = ({ voiceType, voicePrompt, setAudio, setAudioStorageI
 
   const getAudioUrl = useMutation(api.pocasts.getUrl);
 
-  console.log({ getPodcastAudio, generateUploadUrl, startUpload }, "<----diuseGeneratePodcast1");
+  // console.log({ getPodcastAudio, generateUploadUrl, startUpload }, "<----diuseGeneratePodcast1");
 
   const generatePodcast = async () => {
     setIsGenerating(true);
@@ -57,7 +57,7 @@ const useGeneratePodcast = ({ voiceType, voicePrompt, setAudio, setAudioStorageI
         style: toastStyle,
       });
 
-      console.log({ res, blob, fileName, file, uploaded, storageId, getAudioUrl, audioUrl }, "<----diuseGeneratePodcast2");
+      // console.log({ res, blob, fileName, file, uploaded, storageId, getAudioUrl, audioUrl }, "<----diuseGeneratePodcast2");
     } catch (error) {
       console.log(error, "<---diuseGeneratePodcast");
       toast.error("Error generating podcast", {
@@ -91,10 +91,10 @@ const GeneratePodcast = (props: GeneratePodcastProps) => {
         onClick={generatePodcast}
       >
         {isGenerating ? (
-          <>
+          <div className="flex items-center gap-2">
             <span className="text-sm">Generating</span>
             <BiLoaderCircle size={22} className="animate-spin mx-auto" />
-          </>
+          </div>
         ) : (
           <span className="text-sm">Generate Podcast</span>
         )}
