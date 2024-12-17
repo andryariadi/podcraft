@@ -9,10 +9,11 @@ import { Input } from "./ui/input";
 import { LuCloudUpload } from "react-icons/lu";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { useMutation } from "convex/react";
+import { useAction, useMutation } from "convex/react";
 import { useUploadFiles } from "@xixixao/uploadstuff/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
+import { v4 as uuidv4 } from "uuid";
 
 const GenerateThumbnail = ({ image, setImage, imagePrompt, setImagePrompt, setImageStorageId }: GenerateThumbnailProps) => {
   const [isAiThumbnail, setIsAiThumbnail] = useState(false);
@@ -24,7 +25,25 @@ const GenerateThumbnail = ({ image, setImage, imagePrompt, setImagePrompt, setIm
 
   const getImageUrl = useMutation(api.pocasts.getUrl);
 
-  const handleGenareteImage = async () => {};
+  const generateThumbnail = useAction(api.openai.generateThumbnailAction);
+
+  const handleGenareteImage = async () => {
+    setIsGenerating(true);
+    try {
+      const res = await generateThumbnail({ prompt: imagePrompt });
+
+      const blob = new Blob([res], { type: "image/png" });
+      handleUploadImage(blob, `thumbnail-${uuidv4()}.png`);
+
+      setIsGenerating(false);
+      console.log({ res }, "<---handleGenareteImage");
+    } catch (error) {
+      console.log(error);
+      toast.error("Error generating thumbnail", { style: toastStyle });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   const handleUploadImage = async (blob: Blob, fileName: string) => {
     setIsGenerating(true);
