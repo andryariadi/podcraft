@@ -17,6 +17,10 @@ import GeneratePodcast from "./GeneratePodcast";
 import { Id } from "../../convex/_generated/dataModel";
 import { VoiceType } from "@/types";
 import GenerateThumbnail from "./GenerateThumbnail";
+import { toastStyle } from "@/lib/utils";
+import toast from "react-hot-toast";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 const CreatePodcastForm = () => {
   const [voiceType, setVoiceType] = useState<string>();
@@ -29,6 +33,8 @@ const CreatePodcastForm = () => {
   const [imagePrompt, setImagePrompt] = useState("");
   const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null);
   const [imageUrl, setImageUrl] = useState("");
+
+  const createPodcast = useMutation(api.pocasts.createPodcast);
 
   const handleVoiceTypeChange = (voiceType?: string) => {
     setValue("voiceType", voiceType ?? "");
@@ -46,6 +52,18 @@ const CreatePodcastForm = () => {
 
   const handleSubmitForm: SubmitHandler<z.infer<typeof podcastSchema>> = async (data) => {
     console.log(data, "<----dihandleSubmitForm");
+
+    try {
+      if (!audioUrl || !imageUrl) return toast.error("Please generate audio and image first", { style: toastStyle });
+
+      const podcast = await createPodcast({ ...data, voicePrompt, audioUrl, audioDuration, audioStorageId: audioStorageId!, imagePrompt, imageUrl, imageStorageId: imageStorageId!, views: 0 });
+
+      toast.success("Podcast created successfully", { style: toastStyle });
+
+      console.log(podcast, "<----dihandleSubmitForm");
+    } catch (error) {
+      console.log(error, "<----dihandleSubmitForm");
+    }
   };
 
   console.log({ voiceType, voicePrompt, audioUrl, audioStorageId, audioDuration, imageUrl, imagePrompt, imageStorageId }, "<----dicreatePodcastForm");
