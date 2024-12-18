@@ -21,8 +21,11 @@ import { toastStyle } from "@/lib/utils";
 import toast from "react-hot-toast";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 const CreatePodcastForm = () => {
+  const router = useRouter();
+
   const [voiceType, setVoiceType] = useState<string>();
   const [voicePrompt, setVoicePrompt] = useState("");
 
@@ -59,6 +62,8 @@ const CreatePodcastForm = () => {
       const podcast = await createPodcast({ ...data, voicePrompt, audioUrl, audioDuration, audioStorageId: audioStorageId!, imagePrompt, imageUrl, imageStorageId: imageStorageId!, views: 0 });
 
       toast.success("Podcast created successfully", { style: toastStyle });
+
+      router.push("/");
 
       console.log(podcast, "<----dihandleSubmitForm");
     } catch (error) {
